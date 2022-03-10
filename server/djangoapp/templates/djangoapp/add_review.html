@@ -12,5 +12,36 @@
 </head>
     <body>
     <!--Add review form here -->
+    {% include "djangoapp/header.html" %}
+
+    <!-- Stylize Registration form -->
+        <form action="/djangoapp/add_review/{{dealerId}}/" method="post">
+            <div class="container"> <!--Style root div with .container class -->
+                {% csrf_token %}
+                <h1>Please write your review</h1>
+                <hr>
+                <div class="form-group"> <!--Style second div with .form-group class -->
+                      <label for="review"><b>Your review</b></label>
+                     <textarea class="form-control" id="review" name="review" rows="2" required></textarea>
+                                    
+                    <label for="purchase"><b>Did you purchase it? (select date and car if checked) </b></label>
+                    <input type="checkbox" class="form-control" name="purchase"> <!--Style input with .form-control class -->
+                     <label for="purchase_date"><b>When?</b></label>
+                    <input type="date" class="form-control" name="purchase_date" > <!--Style input with .form-control class -->
+                    <label for="lastname"><b>Model</b></label>
+                    <div class="form-group">
+                        <label for="car">Car:</label>
+                        <select name="car" id="car" class="form-select">
+                            {% for car in cars %}
+                                <option selected value={{car.id}}>{{car.title}}-{{car.model.name}}-{{ car.date |date:"Y" }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <hr/>                   
+                     
+                    <button class="btn btn-primary" type="submit">Save review</button> <!--Style button with .btn and .btn-primary class -->
+                </div>
+            </div>
+        </form>
     </body>
 </html>
