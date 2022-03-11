@@ -33,14 +33,14 @@ jobs:
         shell: bash
       - name: Log into IBM Cloud
         run: |
-          ibmcloud login --apikey "$IBM_CLOUD_API" -r "$IBM_CLOUD_REGION" -g "$IBM_CLOUD_GROUP"
+          ibmcloud login --apikey "OiBmg_Y6-5OkaGgA5kaRHNQweL5WiYuRjKplpf_QZDbc" -r "eu-gb" -g "Default"
         shell: bash
       - name: Target CF
-        run: ibmcloud target --cf-api https://api.$IBM_CLOUD_REGION.cf.cloud.ibm.com -r $IBM_CLOUD_REGION -o $IBM_CLOUD_ORG -s $IBM_CLOUD_SPACE
+        run: ibmcloud target --cf-api https://api.eu-gb.cf.cloud.ibm.com -r eu-gb -o srimalhari@gmail.com -s djangoserver-space
         shell: bash
       - name: List all applications
         run: ibmcloud cf apps
         shell: bash
       - name: Deploy manifest file
-        run: ibmcloud cf push -f ./$MANIFEST_NAME
+        run: ibmcloud cf push -f ./manifest.yml
         shell: bash
