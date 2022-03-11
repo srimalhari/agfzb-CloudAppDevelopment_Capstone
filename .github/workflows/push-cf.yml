@@ -9,7 +9,7 @@ env:
   IBM_CLOUD_SPACE: djangoserver-space
   IBM_CLOUD_ORG: srimalhari@gmail.com
   MANIFEST_NAME: manifest.yml
-  IBM_CLOUD_API: ${{OiBmg_Y6-5OkaGgA5kaRHNQweL5WiYuRjKplpf_QZDbc}}
+  IBM_CLOUD_API: ${{secrets.OiBmg_Y6-5OkaGgA5kaRHNQweL5WiYuRjKplpf_QZDbc}}
 
 defaults:
   run:
