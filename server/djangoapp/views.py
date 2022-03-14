@@ -91,6 +91,7 @@ def registration_request(request):
 
 # Update the `get_dealerships` view to render the index page with a list of dealerships
 def get_dealerships(request):
+    context = {}
     if request.method == "GET":
         url = "https://15ce57be.eu-gb.apigw.appdomain.cloud/api/get_dealership_detail"
         ## Get dealers from the URL
@@ -132,8 +133,7 @@ def add_review(request, dealer_id):
     context["dealer"] = dealer
     if request.method == 'GET':
         # Get cars for the dealer
-        cars = CarModel.objects.filter(id=id)
-        print(cars)
+        cars = CarModel.objects.filter(id=dealer_id)
         context["cars"] = cars
         return render(request, 'djangoapp/add_review.html', context)
     elif request.method == 'POST':
@@ -145,8 +145,8 @@ def add_review(request, dealer_id):
             car = CarModel.objects.get(pk=car_id)
             payload["time"] = datetime.utcnow().isoformat()
             payload["name"] = username
-            payload["dealership"] = id
-            payload["id"] = id
+            payload["dealership"] = dealer_id
+            payload["id"] = dealer_id
             payload["review"] = request.POST["content"]
             payload["purchase"] = False
             if "purchasecheck" in request.POST:
@@ -159,5 +159,5 @@ def add_review(request, dealer_id):
             new_payload = {}
             new_payload["review"] = payload
             review_post_url = "https://15ce57be.eu-gb.apigw.appdomain.cloud/api/get_dealership_reviews"
-            restapis.post_request(review_post_url, new_payload, id=id)
-        return redirect("djangoapp:dealer_details", id=id)
+            restapis.post_request(review_post_url, new_payload, id=dealer_id)
+        return redirect("djangoapp:dealer_details", id=dealer_id)

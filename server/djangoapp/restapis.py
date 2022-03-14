@@ -4,6 +4,10 @@ import json
 from .models import CarDealer, DealerReview
 from requests.auth import HTTPBasicAuth
 
+from ibm_watson import NaturalLanguageUnderstandingV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
+
 
 # Create a `get_request` to make HTTP GET requests
 # e.g., response = requests.get(url, params=params, headers={'Content-Type': 'application/json'},
@@ -26,9 +30,7 @@ def get_request(url, **kwargs):
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
 def post_request(url, payload, **kwargs):
-    print(kwargs)
     print("POST to {} ".format(url))
-    print(payload)
     response = requests.post(url, params=kwargs, json=payload)
     status_code = response.status_code
     print("With status {} ".format(status_code))
@@ -79,7 +81,6 @@ def get_dealer_reviews_from_cf(url, dealerId):
         reviews = json_result["body"]["data"]["docs"]
         for review in reviews:
             dealer_review = review
-            print(dealer_review)
             review_obj = DealerReview(dealership=dealer_review["dealership"],
                                    name=dealer_review["name"],
                                    purchase=dealer_review["purchase"],
@@ -96,7 +97,6 @@ def get_dealer_reviews_from_cf(url, dealerId):
                 review_obj.car_year = dealer_review["car_year"]
             
             sentiment = analyze_review_sentiments(review_obj.review)
-            print(sentiment)
             review_obj.sentiment = sentiment
             results.append(review_obj)
     return results
