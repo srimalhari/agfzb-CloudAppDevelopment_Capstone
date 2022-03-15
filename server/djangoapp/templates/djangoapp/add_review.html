@@ -23,12 +23,12 @@
                 <div class="form-group"> <!--Style second div with .form-group class -->
                       <label for="review"><b>Your review</b></label>
                      <textarea class="form-control" id="review" name="review" rows="2" required></textarea>
-                                    
+                                 
                     <label for="purchase"><b>Did you purchase it? (select date and car if checked) </b><br></label>
-                    <input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck"><br> <!--Style input with .form-control class -->
-                    <label for="purchase_date"><b>When?</b></label>
+                    <br><input class="form-check-input" type="checkbox" name="purchasecheck" id="purchasecheck"><br> <!--Style input with .form-control class -->
+                    <label for="purchase_date"><b>When?</b></label><br>
                     <input type="date" class="form-control" name="purchase_date" > <!--Style input with .form-control class -->
-                    <label for="lastname"><b>Model</b></label>
+                    <br><label for="lastname"><b>Model</b></label>
                     <div class="form-group">
                         <label for="car">Car:</label>
                         <select name="car" id="car" class="form-select">
@@ -37,8 +37,7 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <hr/>                   
-                     
+                    <hr/>  <br>                 
                     <button class="btn btn-primary" type="submit" formmethod="post">Save review</button> <!--Style button with .btn and .btn-primary class -->
                 </div>
             </div>
