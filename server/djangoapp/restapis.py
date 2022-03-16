@@ -77,7 +77,7 @@ def get_dealers_from_cf(url, **kwargs):
 # - Parse JSON results into a DealerView object list
 def get_dealer_reviews_from_cf(url,**kwargs):
     results = []
-    id = kwargs.get("dealerId")
+    id = kwargs.get("id")
     if id:
         json_result = get_request(url, id=id)
     else:
