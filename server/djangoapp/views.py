@@ -99,7 +99,7 @@ def get_dealerships(request):
         ## Concat all dealer's short name
         # #dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
         # #Return a list of dealer short name
-        context = {"dealerships": dealerships}
+        context["dealership_list"] =  dealerships
         ## Concat all dealer's short name
         # #Return a list of dealer short name
         return render(request, 'djangoapp/index.html', context)
@@ -111,10 +111,10 @@ def get_dealer_details(request, dealer_id):
     context = {}
     if request.method == "GET":
         url = 'https://9262a942.eu-gb.apigw.appdomain.cloud/api/get-reviews'
-        reviews = restapis.get_dealer_reviews_from_cf(url, dealer_id)
+        reviews = restapis.get_dealer_reviews_from_cf(url, id=dealer_id)
         url2 = "https://9262a942.eu-gb.apigw.appdomain.cloud/api/get-dealer"
         # Get dealers from the URL
-        dealerships = restapis.get_dealers_from_cf(url2)
+        dealerships = restapis.get_dealers_from_cf(url2, id=dealer_id)
         dealership = {}
         for d in dealerships:
             if d.id == dealer_id:
