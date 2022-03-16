@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template.loader import render_to_string
 from requests.api import get, post
-from . import restapis
+from .restapis import get_dealers_from_cf, get_dealer_reviews_from_cf,post_request
 from .models import CarMake, CarModel, CarDealer, DealerReview
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
@@ -95,7 +95,7 @@ def get_dealerships(request):
     if request.method == "GET":
         url = "https://9262a942.eu-gb.apigw.appdomain.cloud/api/get-dealer"
         ## Get dealers from the URL
-        dealerships = restapis.get_dealers_from_cf(url)
+        dealerships = get_dealers_from_cf(url)
         ## Concat all dealer's short name
         # #dealer_names = ' '.join([dealer.short_name for dealer in dealerships])
         # #Return a list of dealer short name
@@ -111,10 +111,10 @@ def get_dealer_details(request, dealer_id):
     context = {}
     if request.method == "GET":
         url = 'https://9262a942.eu-gb.apigw.appdomain.cloud/api/get-reviews'
-        reviews = restapis.get_dealer_reviews_from_cf(url, id=dealer_id)
+        reviews = get_dealer_reviews_from_cf(url, id=dealer_id)
         url2 = "https://9262a942.eu-gb.apigw.appdomain.cloud/api/get-dealer"
         # Get dealers from the URL
-        dealerships = restapis.get_dealers_from_cf(url2, id=dealer_id)
+        dealerships = get_dealers_from_cf(url2, id=dealer_id)
         dealership = {}
         for d in dealerships:
             if d.id == dealer_id:
@@ -129,7 +129,7 @@ def get_dealer_details(request, dealer_id):
 def add_review(request, dealer_id):
     context = {}
     dealer_url = "https://9262a942.eu-gb.apigw.appdomain.cloud/api/get-reviews"
-    dealer = restapis.get_dealer_reviews_from_cf(dealer_url,dealer_id)
+    dealer = get_dealer_reviews_from_cf(dealer_url,dealer_id)
     context["dealer"] = dealer
     if request.method == 'GET':
         # Get cars for the dealer
@@ -159,5 +159,5 @@ def add_review(request, dealer_id):
             new_payload = {}
             new_payload["review"] = payload
             review_post_url = "https://9262a942.eu-gb.apigw.appdomain.cloud/api/post-review"
-            restapis.post_request(review_post_url, new_payload, id=dealer_id)
+            post_request(review_post_url, new_payload, id=dealer_id)
         return redirect("djangoapp:dealer_details", id=dealer_id)
