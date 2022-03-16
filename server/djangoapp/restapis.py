@@ -29,13 +29,19 @@ def get_request(url, **kwargs):
 
 # Create a `post_request` to make HTTP POST requests
 # e.g., response = requests.post(url, params=kwargs, json=payload)
-def post_request(url, payload, **kwargs):
-    print("POST to {} ".format(url))
-    response = requests.post(url, params=kwargs, json=payload)
+def post_request(url, json_payload, **kwargs):
+    print(kwargs)
+    print(json_payload)
+    try:
+        response = requests.post(url, json=json_payload, params=kwargs)
+    except:
+        print("Something went wrong")
+        
     status_code = response.status_code
     print("With status {} ".format(status_code))
     json_data = json.loads(response.text)
-    return json_data
+    return response
+
 # Create a get_dealers_from_cf method to get dealers from a cloud function
 # def get_dealers_from_cf(url, **kwargs):
 # - Call get_request() with specified arguments
@@ -71,7 +77,7 @@ def get_dealers_from_cf(url, **kwargs):
 # - Parse JSON results into a DealerView object list
 def get_dealer_reviews_from_cf(url,**kwargs):
     results = []
-    id = kwargs.get("id")
+    id = kwargs.get("dealerId")
     if id:
         json_result = get_request(url, id=id)
     else:
@@ -121,7 +127,9 @@ def analyze_review_sentiments(text):
         text=text,
         features= Features(sentiment= SentimentOptions(targets=[text]))
     ).get_result()
-    label=json.dumps(response, indent=2)
+    print(json.dumps(response))
+    sentiment_score = str(response["sentiment"]["document"]["score"])
     sentiment_label = response["sentiment"]["document"]["label"]
+    print(sentiment_score)
     print(sentiment_label)
-    return sentiment_label
+    sentimentresult = sentiment_label
