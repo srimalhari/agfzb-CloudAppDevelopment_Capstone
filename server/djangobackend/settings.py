@@ -53,7 +53,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'djangobackend.urls'
-
+CSRF_TRUSTED_ORIGINS = ['https://haridjangoapp.eu-gb.cf.appdomain.cloud']
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
