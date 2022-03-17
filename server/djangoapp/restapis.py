@@ -117,19 +117,10 @@ def analyze_review_sentiments(text):
     url = "https://api.eu-gb.natural-language-understanding.watson.cloud.ibm.com/instances/73d8ac41-7d3c-4f22-b28f-f44a9427c5a1"
     texttoanalyze= text
     version = '2020-08-01'
-    authenticator = IAMAuthenticator(api_key)
-    natural_language_understanding = NaturalLanguageUnderstandingV1(
-    version='2020-08-01',
-    authenticator=authenticator
-    )
-    natural_language_understanding.set_service_url(url)
-    response = natural_language_understanding.analyze(
-        text=text,
-        features= Features(sentiment= SentimentOptions(targets=[text]))
-    ).get_result()
-    print(json.dumps(response))
-    sentiment_score = str(response["sentiment"]["document"]["score"])
-    sentiment_label = response["sentiment"]["document"]["label"]
-    print(sentiment_score)
-    print(sentiment_label)
-    sentimentresult = sentiment_label
+    authenticator = IAMAuthenticator(api_key) 
+    natural_language_understanding = NaturalLanguageUnderstandingV1(version='2021-08-01',authenticator=authenticator) 
+    natural_language_understanding.set_service_url(url) 
+    response = natural_language_understanding.analyze( text=text ,features=Features(sentiment=SentimentOptions(targets=[text])), language='en').get_result() 
+    label=json.dumps(response, indent=2) 
+    label = response['sentiment']['document']['label'] 
+    return(label) 
